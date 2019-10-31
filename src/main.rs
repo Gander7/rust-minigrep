@@ -5,20 +5,25 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     println!("{:?}", args);
 
-    let (query, filename) = parse_config(&args);
+    let cfg = parse_config(&args);
 
-    println!("Searching for {}", query);
-    println!("In File: {}", filename);
+    println!("Searching for {}", cfg.query);
+    println!("In File: {}", cfg.filename);
 
-    let content = fs::read_to_string(filename)
+    let content = fs::read_to_string(cfg.filename)
         .expect("Something went wrong reading the file");
 
     println!("With Text:\n{}", content);
 }
 
-fn parse_config(args: &[String]) -> (&str, &str) {
-    let query = &args[1];
-    let filename = &args[2];
+struct Config {
+    query: String,
+    filename: String
+}
 
-    (query, filename)
+fn parse_config(args: &[String]) -> Config {
+    let query = args[1].clone();
+    let filename = args[2].clone();
+
+    Config { query, filename }
 }
