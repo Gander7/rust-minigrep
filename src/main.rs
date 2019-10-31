@@ -5,7 +5,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     println!("{:?}", args);
 
-    let cfg = parse_config(&args);
+    let cfg = Config::new(&args);
 
     println!("Searching for {}", cfg.query);
     println!("In File: {}", cfg.filename);
@@ -20,10 +20,11 @@ struct Config {
     query: String,
     filename: String
 }
+impl Config {
+    fn new(args: &[String]) -> Config {
+        let query = args[1].clone();
+        let filename = args[2].clone();
 
-fn parse_config(args: &[String]) -> Config {
-    let query = args[1].clone();
-    let filename = args[2].clone();
-
-    Config { query, filename }
+        Config { query, filename }
+    }
 }
